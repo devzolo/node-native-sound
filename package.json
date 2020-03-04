@@ -1,8 +1,8 @@
 {
-  "name": "nodejs-napi-project-template",
-  "version": "1.0.0",
+  "name": "native-sound",
+  "version": "0.0.1",
   "main": "dist",
-  "repository": "https://github.com/devzolo/nodejs-napi-project-template.git",
+  "repository": "https://github.com/devzolo/node-native-sound.git",
   "author": "Raphael-ZoLo <zolotorevsky@gmail.com>",
   "license": "MIT",
   "devDependencies": {
@@ -22,11 +22,11 @@
     "typescript": "^3.7.5"
   },
   "binary": {
-    "module_name": "nodejs-napi-project-template",
+    "module_name": "native-sound",
     "module_path": "./bin/{platform}/{arch}/",
     "remote_path": "./releases/download/v{version}/",
     "package_name": "{module_name}-v{version}-{platform}-{arch}.tar.gz",
-    "host": "https://github.com/devzolo/nodejs-napi-project-template"
+    "host": "https://github.com/devzolo/node-native-sound"
   },
   "scripts": {
     "install": "node-pre-gyp install --fallback-to-build",
