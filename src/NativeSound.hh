@@ -60,24 +60,24 @@ class NativeSound : public Napi::ObjectWrap<NativeSound> {
 public:
     //SSoundThreadVariables* m_pVars;
     uint32_t               uiEndSyncCount;
-    bool                   bFreeSync;
+    BOOL                   bFreeSync;
 
 private:
-    const bool    m_bStream = false;
+    const BOOL    m_bStream = false;
     const std::string m_strPath;
-    const bool    m_b3D = false;
-    const bool    m_bLoop = false;
-    const bool    m_bThrottle = false;
+    const BOOL    m_b3D = false;
+    const BOOL    m_bLoop = false;
+    const BOOL    m_bThrottle = false;
     void*         m_pBuffer;
     unsigned int  m_uiBufferLength;
 
-    bool    m_bPendingPlay;
+    BOOL    m_bPendingPlay;
     HSTREAM m_pSound;
 
     // Playback state
-    bool    m_bPaused;
-    bool    m_bReversed;
-    bool    m_bPan;
+    BOOL    m_bPaused;
+    BOOL    m_bReversed;
+    BOOL    m_bPan;
     float   m_fDefaultFrequency;
     float   m_fVolume;
     float   m_fMinDistance;

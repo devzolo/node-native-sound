@@ -358,7 +358,27 @@ Napi::Value NativeSound::SetPanningEnabled(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value NativeSound::SetPaused(const Napi::CallbackInfo& info) {
+
   Napi::Env env = info.Env();
+
+  int length = info.Length();
+
+  if (length <= 0 || !info[0].IsBoolean()) {
+    Napi::TypeError::New(env, "Boolean expected").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  BOOL bPaused = info[0].As<Napi::Boolean>();
+
+  m_bPaused = bPaused;
+
+  if (m_pSound)
+  {
+      if (bPaused)
+          BASS_ChannelPause(m_pSound);
+      else
+          BASS_ChannelPlay(m_pSound, FALSE);
+  }
   return env.Undefined();
 }
 
@@ -379,6 +399,14 @@ Napi::Value NativeSound::SetSpeed(const Napi::CallbackInfo& info) {
 
 Napi::Value NativeSound::SetVolume(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
+
+  float fVolume = info[0].As<Napi::Number>().FloatValue();
+
+  m_fVolume = fVolume;
+
+  if (m_pSound && !m_b3D)
+      BASS_ChannelSetAttribute(m_pSound, BASS_ATTRIB_VOL, fVolume);
+
   return env.Undefined();
 }
 
