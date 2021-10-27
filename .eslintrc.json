@@ -34,6 +34,15 @@
     ],
     "no-restricted-syntax": 0,
     "import/no-dynamic-require": 0,
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": [
+          "native-sound"
+        ]
+      }
+    ],
+
     "@typescript-eslint/no-var-requires": 0
   },
   "settings": {

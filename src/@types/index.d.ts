@@ -4,7 +4,7 @@ declare module 'native-sound' {
       initialize(): void;
       init(): boolean;
       loadPlugin(path: string): void;
-      NativeSound: NativeSound;
+      NativeSound: new (path: string) => NativeSound;
     }
 
     class NativeSound {
