@@ -1,2 +1,2 @@
-# nodejs-addon-api-project-template
-Template repository for Node.js N-API projects using C++ (node-addon-api)
+# node-native-sound
+BASS is an audio library for Node.js.
