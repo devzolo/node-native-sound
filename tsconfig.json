@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "es6",
     "lib": [
       "ES6"
     ],
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
+    "declaration": true,
     "strict": true,
     "baseUrl": ".",
     "paths": {
@@ -15,5 +16,6 @@
     "typeRoots": ["./node_modules/@types", "./src/@types"],
     "esModuleInterop": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["./src/**/__test__"]
 }

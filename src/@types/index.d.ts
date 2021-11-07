@@ -1,4 +1,4 @@
-declare module 'native-sound' {
+declare module '@devzolo/node-native-sound' {
   namespace native {
     interface NativeSoundCore {
       initialize(): void;

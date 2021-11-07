@@ -57,7 +57,7 @@
             '<(module_root_dir)\\deps\\bass\\<(target_arch)\\bassopus.dll',
             '<(module_root_dir)\\deps\\bass\\<(target_arch)\\basswma.dll'
           ]
-        },
+        }
       ]
     }
   ]
