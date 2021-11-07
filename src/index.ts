@@ -2,7 +2,7 @@ import path from 'path';
 
 const addonDir = path.resolve(`./bin/${process.platform}/${process.arch}/`);
 
-const sound = require(path.join(
+const sound = require(path.join(__dirname,
   `../bin/${process.platform}/${process.arch}/`,
   'native-sound',
 )); // require('bindings')('example');
