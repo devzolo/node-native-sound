@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { NativeSound } from 'native-sound';
+import { NativeSound } from '@devzolo/node-native-sound';
 
 function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));

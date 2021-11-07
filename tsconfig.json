@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "ES6"
-    ],
+    "lib": ["ES6"],
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
     "strict": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "native-sound": ["./src"]
+      "@devzolo/node-native-sound": ["./src/"],
+      "~/*": ["./src/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/@types"],
     "esModuleInterop": true
