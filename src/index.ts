@@ -29,3 +29,4 @@ sound.initialize = (): unknown => {
 export default sound.initialize();
 
 export const { NativeSound } = sound;
+

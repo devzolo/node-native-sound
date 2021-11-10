@@ -1,6 +1,6 @@
 {
   "name": "@devzolo/node-native-sound",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dist",
   "author": "Raphael-ZoLo <zolotorevsky@gmail.com>",
   "license": "MIT",
@@ -8,6 +8,10 @@
   "publishConfig": {
     "@devzolo:registry": "https://npm.pkg.github.com"
   },
+  "files": [
+    "dist",
+    "bin"
+  ],
   "binary": {
     "module_name": "native-sound",
     "module_path": "./bin/{platform}/{arch}/",
@@ -16,7 +20,7 @@
     "host": "https://github.com/devzolo/node-native-sound"
   },
   "scripts": {
-    "install": "node-pre-gyp install --fallback-to-build",
+    "install_old": "node-pre-gyp install --fallback-to-build",
     "prebuild": "rimraf dist",
     "build": "tsc&&node-pre-gyp install --build-from-source",
     "postbuild": "tsc",
