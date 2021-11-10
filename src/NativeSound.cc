@@ -69,14 +69,17 @@ NativeSound::NativeSound(const Napi::CallbackInfo &info)
   m_pSound = BASS_StreamCreateFile(FALSE, strPath.c_str(), 0, 0, BASS_SAMPLE_LOOP);
 
   if (!m_pSound)
-    m_pSound = BASS_MusicLoad(FALSE, strPath.c_str(), 0, 0, /* BASS_MUSIC_RAMP | BASS_MUSIC_PRESCAN | BASS_STREAM_DECODE*/ BASS_MUSIC_RAMP | BASS_SAMPLE_LOOP, 0); // Try again | BASS_UNICODE
+    m_pSound = BASS_MusicLoad(FALSE, strPath.c_str(), 0, 0, BASS_MUSIC_RAMP | BASS_MUSIC_PRESCAN | BASS_STREAM_DECODE | BASS_UNICODE, 0); // Try again | BASS_UNICODE
 
   if (!m_pSound && b3D)
     m_pSound = NativeSound::ConvertFileToMono(strPath.c_str()); // Last try if 3D
 
   if (!m_pSound)
   {
-    Napi::TypeError::New(env, StringFormat("BASS ERROR %d in LoadMedia  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), strPath.c_str(), b3D, bLoop)).ThrowAsJavaScriptException();
+    Napi::TypeError::New(
+      env,
+      StringFormat("BASS ERROR %d in LoadMedia  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), strPath.c_str(), b3D, bLoop)
+    ).ThrowAsJavaScriptException();
     return;
   }
 
@@ -125,20 +128,31 @@ Napi::Value NativeSound::GetBPM(const Napi::CallbackInfo &info)
       bpmChan = BASS_MusicLoad(false, m_strPath.c_str(), 0, 0, BASS_MUSIC_DECODE | BASS_MUSIC_PRESCAN | BASS_UNICODE, 0);
     }
 
-    // if (bpmChan)
-    // {
-    //   fData = BASS_FX_BPM_DecodeGet(bpmChan, 0, GetLength(), 0, BASS_FX_FREESOURCE, NULL, NULL);
-    //   BASS_FX_BPM_Free(bpmChan);
-    // }
+    if (bpmChan)
+    {
+      double len = 0;
+      if (m_pSound)
+      {
+        QWORD length = BASS_ChannelGetLength(m_pSound, BASS_POS_BYTE);
+        if (length == -1)
+          len = BASS_ChannelBytes2Seconds(m_pSound, length);
+      }
+      fData = BASS_FX_BPM_DecodeGet(bpmChan, 0, len, 0, BASS_FX_FREESOURCE, NULL, NULL);
+      BASS_FX_BPM_Free(bpmChan);
+    }
 
-    // if (BASS_ErrorGetCode() != BASS_OK)
-    // {
-    //   g_pCore->GetConsole()->Printf("BASS ERROR %d in BASS_FX_BPM_DecodeGet  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), *m_strPath, m_b3D, m_bLoop);
-    // }
-    // else
-    // {
-    //   m_fBPM = floor(fData);
-    // }
+    if (BASS_ErrorGetCode() != BASS_OK)
+    {
+      Napi::TypeError::New(
+        env,
+        StringFormat("BASS ERROR %d in BASS_FX_BPM_DecodeGet  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), m_strPath.c_str(), m_b3D, m_bLoop).c_str()
+      ).ThrowAsJavaScriptException();
+
+    }
+    else
+    {
+      m_fBPM = floor(fData);
+    }
   }
 
   return Napi::Number::New(env, m_fBPM);

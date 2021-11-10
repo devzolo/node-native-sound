@@ -5,6 +5,7 @@ declare module '@devzolo/node-native-sound' {
       init(): boolean;
       loadPlugin(path: string): void;
       NativeSound: new (path: string) => NativeSound;
+      NativeSoundType: typeof NativeSound;
     }
 
     class NativeSound {

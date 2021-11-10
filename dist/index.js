@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NativeSound = void 0;
 const path_1 = __importDefault(require("path"));
-const addonDir = path_1.default.resolve(`./bin/${process.platform}/${process.arch}/`);
-const sound = require(path_1.default.join(__dirname, `../bin/${process.platform}/${process.arch}/`, 'native-sound')); // require('bindings')('example');
+const addonDir = path_1.default.resolve(path_1.default.join(__dirname, "..", "bin", process.platform, process.arch));
+const sound = require(path_1.default.join(__dirname, "..", "bin", process.platform, process.arch, 'native-sound'));
 sound.initialize = () => {
     if (sound.init()) {
         // Load the Plugins
