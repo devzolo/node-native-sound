@@ -113,7 +113,35 @@ Napi::Value NativeSound::Multiply(const Napi::CallbackInfo& info) {
 Napi::Value NativeSound::GetBPM(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
-  return env.Undefined();
+  if (m_fBPM == 0.0f && !m_bStream)
+  {
+    float fData = 0.0f;
+
+    // open the same file as played but for bpm decoding detection
+    DWORD bpmChan = BASS_StreamCreateFile(false, m_strPath.c_str(), 0, 0, BASS_STREAM_DECODE | BASS_UNICODE);
+
+    if (!bpmChan)
+    {
+      bpmChan = BASS_MusicLoad(false, m_strPath.c_str(), 0, 0, BASS_MUSIC_DECODE | BASS_MUSIC_PRESCAN | BASS_UNICODE, 0);
+    }
+
+    // if (bpmChan)
+    // {
+    //   fData = BASS_FX_BPM_DecodeGet(bpmChan, 0, GetLength(), 0, BASS_FX_FREESOURCE, NULL, NULL);
+    //   BASS_FX_BPM_Free(bpmChan);
+    // }
+
+    // if (BASS_ErrorGetCode() != BASS_OK)
+    // {
+    //   g_pCore->GetConsole()->Printf("BASS ERROR %d in BASS_FX_BPM_DecodeGet  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), *m_strPath, m_b3D, m_bLoop);
+    // }
+    // else
+    // {
+    //   m_fBPM = floor(fData);
+    // }
+  }
+
+  return Napi::Number::New(env, m_fBPM);
 }
 
 Napi::Value NativeSound::GetBufferLength(const Napi::CallbackInfo &info)
@@ -249,16 +277,30 @@ Napi::Value NativeSound::GetFFTData(const Napi::CallbackInfo &info)
   return env.Null();
 }
 
+// Non-streams only
 Napi::Value NativeSound::GetLength(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
-  return env.Undefined();
+  // Only relevant for non-streams, which are always ready if valid
+  if (m_pSound)
+  {
+    QWORD length = BASS_ChannelGetLength(m_pSound, BASS_POS_BYTE);
+    if (length == -1)
+      return Napi::Number::New(env, BASS_ChannelBytes2Seconds(m_pSound, length));
+  }
+  return Napi::Number::New(env, 0);
 }
 
 Napi::Value NativeSound::GetLevelData(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
-  return env.Undefined();
+  if (m_pSound)
+  {
+    DWORD dwData = BASS_ChannelGetLevel(m_pSound);
+    if (dwData != 0)
+      return Napi::Number::New(env, dwData);
+  }
+  return Napi::Number::New(env, 0);
 }
 
 Napi::Value NativeSound::GetMaxDistance(const Napi::CallbackInfo &info)
