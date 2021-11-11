@@ -8,8 +8,7 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "@devzolo/node-native-sound": ["./src/"],
-      "~/*": ["./src/*"]
+      "@devzolo/node-native-sound/*": ["./src/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/@types"],
     "esModuleInterop": true

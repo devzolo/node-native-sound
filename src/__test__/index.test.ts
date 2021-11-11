@@ -1,5 +1,6 @@
 import path from 'path';
 
+// @ts-ignore
 import { NativeSound } from '@devzolo/node-native-sound';
 
 function delay(ms: number): Promise<void> {
