@@ -16,7 +16,7 @@ declare module '@devzolo/node-native-sound' {
 
     getEffects(): void;
 
-    getFFTData(): void;
+    getFFTData(length: 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384): number[];
 
     getLength(): void;
 
