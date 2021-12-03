@@ -77,9 +77,9 @@ NativeSound::NativeSound(const Napi::CallbackInfo &info)
   if (!m_pSound)
   {
     Napi::TypeError::New(
-      env,
-      StringFormat("BASS ERROR %d in LoadMedia  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), strPath.c_str(), b3D, bLoop)
-    ).ThrowAsJavaScriptException();
+        env,
+        StringFormat("BASS ERROR %d in LoadMedia  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), strPath.c_str(), b3D, bLoop))
+        .ThrowAsJavaScriptException();
     return;
   }
 
@@ -144,10 +144,9 @@ Napi::Value NativeSound::GetBPM(const Napi::CallbackInfo &info)
     if (BASS_ErrorGetCode() != BASS_OK)
     {
       Napi::TypeError::New(
-        env,
-        StringFormat("BASS ERROR %d in BASS_FX_BPM_DecodeGet  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), m_strPath.c_str(), m_b3D, m_bLoop).c_str()
-      ).ThrowAsJavaScriptException();
-
+          env,
+          StringFormat("BASS ERROR %d in BASS_FX_BPM_DecodeGet  path:%s  3d:%d  loop:%d", BASS_ErrorGetCode(), m_strPath.c_str(), m_b3D, m_bLoop).c_str())
+          .ThrowAsJavaScriptException();
     }
     else
     {
@@ -280,16 +279,28 @@ Napi::Value NativeSound::GetFFTData(const Napi::CallbackInfo &info)
       return env.Null();
 
     float *pData = new float[iLength];
-    if (BASS_ChannelGetData(m_pSound, pData, lFlags) != -1)
-      return float2js(env, pData, iLength);
+
+    int len = BASS_ChannelGetData(m_pSound, pData, lFlags);
+
+    if (len != -1)
+    {
+      Napi::Array array = Napi::Array::New(env);
+      for (int i = 0; i < iLength; i++)
+      {
+        array.Set(i, Napi::Number::New(env, pData[i]));
+      }
+      return array;
+    }
     else
     {
       delete[] pData;
-      return env.Null();
+      Napi::TypeError::New(env, "BASS_ChannelGetData ERROR").ThrowAsJavaScriptException();
+      return env.Undefined();
     }
   }
-  return env.Null();
+  return env.Undefined();
 }
+
 
 // Non-streams only
 Napi::Value NativeSound::GetLength(const Napi::CallbackInfo &info)

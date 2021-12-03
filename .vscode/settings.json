@@ -41,6 +41,9 @@
         "xutility": "cpp",
         "map": "cpp",
         "xlocinfo": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "array": "cpp",
+        "format": "cpp",
+        "xtree": "cpp"
     }
 }
