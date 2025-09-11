@@ -1,72 +1,70 @@
-declare module '@devzolo/node-native-sound' {
+declare module "@devzolo/node-native-sound" {
+	interface NativeSoundCore {
+		initialize(): void;
+		init(): boolean;
+		loadPlugin(path: string): void;
+	}
 
-  interface NativeSoundCore {
-    initialize(): void;
-    init(): boolean;
-    loadPlugin(path: string): void;
-  }
+	export class NativeSound {
+		constructor(path: string);
 
-  export class NativeSound {
+		getBPM(): void;
 
-    constructor(path: string);
+		getBufferLength(): void;
 
-    getBPM(): void;
+		getEffects(): void;
 
-    getBufferLength(): void;
+		getFFTData(length: 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384): number[];
 
-    getEffects(): void;
+		getLength(): void;
 
-    getFFTData(length: 256 | 512 | 1024 | 2048 | 4096 | 8192 | 16384): number[];
+		getLevelData(): void;
 
-    getLength(): void;
+		getMaxDistance(): void;
 
-    getLevelData(): void;
+		getMetaTags(): void;
 
-    getMaxDistance(): void;
+		getMinDistance(): void;
 
-    getMetaTags(): void;
+		getPan(): void;
 
-    getMinDistance(): void;
+		getPosition(): void;
 
-    getPan(): void;
+		getProperties(): void;
 
-    getPosition(): void;
+		getSpeed(): void;
 
-    getProperties(): void;
+		getVolume(): void;
 
-    getSpeed(): void;
+		getWaveData(): void;
 
-    getVolume(): void;
+		isPanningEnabled(): void;
 
-    getWaveData(): void;
+		isPaused(): void;
 
-    isPanningEnabled(): void;
+		setEffectEnabled(): void;
 
-    isPaused(): void;
+		setMaxDistance(): void;
 
-    setEffectEnabled(): void;
+		setMinDistance(): void;
 
-    setMaxDistance(): void;
+		setPan(): void;
 
-    setMinDistance(): void;
+		setPanningEnabled(): void;
 
-    setPan(): void;
+		setPaused(): void;
 
-    setPanningEnabled(): void;
+		setPosition(): void;
 
-    setPaused(): void;
+		setProperties(): void;
 
-    setPosition(): void;
+		setSpeed(): void;
 
-    setProperties(): void;
+		setVolume(): void;
 
-    setSpeed(): void;
+		stop(): void;
+	}
 
-    setVolume(): void;
-
-    stop(): void;
-  }
-
-  const core: NativeSoundCore;
-  export default core;
+	const core: NativeSoundCore;
+	export default core;
 }
